@@ -39,7 +39,7 @@ def scrape_biden_archives(pages=1):
                 article_resp = requests.get(link, headers=headers, timeout=10)
                 article_soup = BeautifulSoup(article_resp.text, 'html.parser')
 
-                # 1. DATE: Usually in a <time> tag
+                # DATE: Usually in a <time> tag
                 date_tag = article_soup.find('time')
                 date = date_tag.get_text(strip=True) if date_tag else "N/A"
                 
