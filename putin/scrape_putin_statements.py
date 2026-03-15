@@ -13,6 +13,7 @@ def scrape_putin_transcripts(limit=None):
         return
 
     df = pd.read_csv(file_path)
+    df["Full_Transcript"] = df["Full_Transcript"].fillna("").astype(str)
 
     # 2. Apply the limit if specified
     if limit:
@@ -52,13 +53,14 @@ def scrape_putin_transcripts(limit=None):
     # 4. Process the links
     transcripts = []
     for index, row in df.iterrows():
-        if row["Full_Transcript"][:8] == 'Scraping':
+        if row["Full_Transcript"][:8] == 'Scraping' or not row["Full_Transcript"]:
             print(f"📑 Processing {index+1}/{len(df)}: {row['Title'][:50]}...")
         
             text = get_body_text(row['URL'])
             transcripts.append(text)
         
             time.sleep(random.uniform(2.0, 5.0))
+            
         else:
             transcripts.append(row["Full_Transcript"])
 
